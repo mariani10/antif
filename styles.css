@@ -61,7 +61,6 @@ textarea {
 
 .page-shell {
     position: relative;
-    overflow: hidden;
 }
 
 .page-shell::before,
@@ -98,6 +97,7 @@ main,
 .site-header {
     position: sticky;
     top: 0;
+    z-index: 30;
     backdrop-filter: blur(18px);
     background: rgba(5, 5, 5, 0.72);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -154,10 +154,19 @@ main,
 }
 
 .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     padding: 0.8rem 1rem;
     border: 1px solid var(--line-strong);
     border-radius: 999px;
     color: var(--text) !important;
+}
+
+.nav-cta-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex: 0 0 auto;
 }
 
 .menu-toggle {
@@ -180,7 +189,12 @@ main,
 }
 
 .section {
-    padding: 5rem 0;
+    padding: 3rem 0;
+    scroll-margin-top: 108px;
+}
+
+.section + .section {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .hero {
@@ -243,7 +257,7 @@ main,
 
 .hero h1 {
     max-width: 10ch;
-    font-size: clamp(3.3rem, 8vw, 6.6rem);
+    font-size: clamp(2.8rem, 6.8vw, 5.4rem);
     margin-bottom: 1.25rem;
 }
 
@@ -459,9 +473,48 @@ main,
 }
 
 .service-grid,
-.method-grid {
+.method-grid,
+.institutions-grid {
     display: grid;
     gap: 1rem;
+}
+
+.institutions-heading {
+    margin-bottom: 2.5rem;
+}
+
+.institutions-slider {
+    overflow: hidden;
+    padding: 0.35rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
+        rgba(255, 255, 255, 0.01);
+}
+
+.institutions-track {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: max-content;
+    animation: institutionsMove 26s linear infinite;
+}
+
+.institutions-track span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 92px;
+    min-width: clamp(180px, 18vw, 240px);
+    padding: 1rem 1.4rem;
+    text-align: center;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(1.1rem, 2.6vw, 1.9rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(244, 244, 241, 0.72);
+    opacity: 0.78;
 }
 
 .service-grid {
@@ -509,14 +562,28 @@ main,
     background: rgba(255, 255, 255, 0.02);
 }
 
+.about-copy h2 {
+    margin-bottom: 1.2rem;
+}
+
 .about-copy p + p {
     margin-top: 1rem;
 }
 
 .about-quote {
-    display: flex;
-    align-items: flex-end;
+    display: grid;
+    gap: 1.2rem;
+    align-content: end;
     min-height: 100%;
+}
+
+.about-photo {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: calc(var(--radius-xl) - 6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .about-quote p {
@@ -595,7 +662,7 @@ main,
 }
 
 .ticker-track span::after {
-    content: "\\2022";
+    content: "-";
     color: rgba(255, 255, 255, 0.35);
 }
 
@@ -635,6 +702,15 @@ main,
     }
     to {
         transform: translateX(-50%);
+    }
+}
+
+@keyframes institutionsMove {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - 0.5rem));
     }
 }
 
@@ -679,13 +755,15 @@ main,
         background: rgba(12, 12, 12, 0.95);
         box-shadow: var(--shadow);
         opacity: 0;
+        visibility: hidden;
         pointer-events: none;
         transform: translateY(-8px);
-        transition: opacity 0.25s ease, transform 0.25s ease;
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
     }
 
     .nav-links.is-open {
         opacity: 1;
+        visibility: visible;
         pointer-events: auto;
         transform: translateY(0);
     }
@@ -709,6 +787,12 @@ main,
 
     .section {
         padding: 4rem 0;
+    }
+
+    .institutions-track span {
+        min-width: 160px;
+        min-height: 82px;
+        font-size: 1rem;
     }
 }
 
